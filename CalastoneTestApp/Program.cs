@@ -1,15 +1,24 @@
 ﻿var serviceProvider = new ServiceCollection()
     .AddScoped<IFileProcessor, FileProcessor>()
-    .AddScoped<IInputSanitizer, InputSanitizer>()
+    .AddScoped<IFilterWordsProvider, FilterWordsProvider>()
     .AddScoped<IFileContentProvider, FileContentProvider>()
     .AddScoped<IResultDisplayProvider, ResultDisplayProvider>()
     .BuildServiceProvider();
 
-var fileProcessor = serviceProvider.GetService<IFileProcessor>();
-var result = fileProcessor?.Process();
-
-if (result != null)
+try
 {
-    var resultDisplayProvider = serviceProvider.GetService<IResultDisplayProvider>();
-    resultDisplayProvider?.Display(result);
+    var fileProcessor = serviceProvider.GetService<IFileProcessor>();
+    var finalWords = fileProcessor?.Process();
+
+    if (finalWords != null)
+    {
+        var resultDisplayProvider = serviceProvider.GetService<IResultDisplayProvider>();
+        resultDisplayProvider?.Display(finalWords);
+    }
 }
+catch (Exception ex)
+{
+    // logging here
+}
+
+Console.ReadKey();

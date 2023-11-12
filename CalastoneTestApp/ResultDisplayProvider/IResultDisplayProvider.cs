@@ -1,4 +1,4 @@
-﻿namespace CalastoneTestApp;
+﻿namespace CalastoneTestApp.ResultDisplayProvider;
 
 public interface IResultDisplayProvider
 {

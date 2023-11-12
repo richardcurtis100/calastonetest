@@ -1,4 +1,6 @@
-﻿namespace CalastoneTestAppTests;
+﻿using CalastoneTestApp.Filters;
+
+namespace CalastoneTestAppTests;
 
 public class FilterLessThanMinLengthTests
 {
@@ -6,38 +8,36 @@ public class FilterLessThanMinLengthTests
     public void FilterWordsLessThanMinLength_WhenGivenValidLength_ShouldReturnWordsWithGreaterLength()
     {
         // arrange
-        var minLength = 3;
+        const int minLength = 3;
         var input = new[] { "this", "is", "the", "test", "input", "to", "use" };
 
         // act
         var actual = input.FilterWordsLessThanMinLength(minLength);
 
         // assert
-        var expected = 5;
-        actual.Should().NotBeNull();
-        actual.Count().Should().Be(expected);
+        var expected = new[] { "this", "", "the", "test", "input", "", "use" };
+        actual.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
     public void FilterWordsLessThanMinLength_WhenGivenInvalidChar_ShouldReturnUnchangedList()
     {
         // arrange
-        var minLength = 1;
+        const int minLength = 1;
         var input = new[] { "this", "is", "the", "test", "input", "to", "use" };
 
         // act
         var actual = input.FilterWordsLessThanMinLength(minLength);
 
         // assert
-        var expected = input.Length;
-        actual.Should().NotBeNull();
-        actual.Count().Should().Be(expected);
+        var expected = input;
+        actual.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
     public void FilterWordsLessThanMinLength_WhenGivenEmptyWordsCollection_ShouldThrowException()
     {
-        var minLength = 3;
+        const int minLength = 3;
         var input = Array.Empty<string>();
 
         var actual = () => input.FilterWordsLessThanMinLength(minLength);

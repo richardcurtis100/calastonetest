@@ -1,4 +1,4 @@
-﻿namespace CalastoneTestApp;
+﻿namespace CalastoneTestApp.FileContentProvider;
 
 public class FileContentProvider : IFileContentProvider
 {

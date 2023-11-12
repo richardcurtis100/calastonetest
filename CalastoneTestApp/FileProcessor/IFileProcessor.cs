@@ -1,4 +1,4 @@
-﻿namespace CalastoneTestApp;
+﻿namespace CalastoneTestApp.FileProcessor;
 
 public interface IFileProcessor
 {

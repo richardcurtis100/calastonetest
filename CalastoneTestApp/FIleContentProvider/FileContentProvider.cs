@@ -14,6 +14,7 @@ public class FileContentProvider : IFileContentProvider
         catch (IOException ex)
         {
             Console.WriteLine($"Error reading file: {ex.Message}");
+            throw;
         }
 
         return output;

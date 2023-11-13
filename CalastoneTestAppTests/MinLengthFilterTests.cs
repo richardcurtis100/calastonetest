@@ -1,18 +1,17 @@
-﻿using CalastoneTestApp.Filters;
+﻿namespace CalastoneTestAppTests;
 
-namespace CalastoneTestAppTests;
-
-public class FilterLessThanMinLengthTests
+public class MinLengthFilterTests
 {
     [Fact]
-    public void FilterWordsLessThanMinLength_WhenGivenValidLength_ShouldReturnWordsWithGreaterLength()
+    public void Filter_WhenGivenValidLength_ShouldReturnWordsWithGreaterLength()
     {
         // arrange
-        const int minLength = 3;
+        const string minLength = "3";
         var input = new[] { "this", "is", "the", "test", "input", "to", "use" };
+        var filter = new MinLengthFilter(); 
 
         // act
-        var actual = input.FilterWordsLessThanMinLength(minLength);
+        var actual = filter.Filter(input, minLength);
 
         // assert
         var expected = new[] { "this", "", "the", "test", "input", "", "use" };
@@ -20,14 +19,15 @@ public class FilterLessThanMinLengthTests
     }
 
     [Fact]
-    public void FilterWordsLessThanMinLength_WhenGivenInvalidChar_ShouldReturnUnchangedList()
+    public void Filter_WhenGivenInvalidLength_ShouldReturnUnchangedList()
     {
         // arrange
-        const int minLength = 1;
+        const string minLength = "1";
         var input = new[] { "this", "is", "the", "test", "input", "to", "use" };
+        var filter = new MinLengthFilter(); 
 
         // act
-        var actual = input.FilterWordsLessThanMinLength(minLength);
+        var actual = filter.Filter(input, minLength);
 
         // assert
         var expected = input;
@@ -35,12 +35,14 @@ public class FilterLessThanMinLengthTests
     }
 
     [Fact]
-    public void FilterWordsLessThanMinLength_WhenGivenEmptyWordsCollection_ShouldThrowException()
+    public void Filter_WhenGivenEmptyWordsCollection_ShouldThrowException()
     {
-        const int minLength = 3;
+        const string minLength = "3";
         var input = Array.Empty<string>();
+        var filter = new MinLengthFilter(); 
 
-        var actual = () => input.FilterWordsLessThanMinLength(minLength);
+        // act
+        var actual = () => filter.Filter(input, minLength);
 
         // assert
         var exception = Assert.Throws<InvalidOperationException>(actual);

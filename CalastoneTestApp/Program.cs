@@ -3,18 +3,24 @@
     .AddScoped<IFilterWordsProvider, FilterWordsProvider>()
     .AddScoped<IFileContentProvider, FileContentProvider>()
     .AddScoped<IResultDisplayProvider, ResultDisplayProvider>()
+    .AddScoped<IFilter, IllegalCharacterFilter>()
+    .AddScoped<IFilter, MinLengthFilter>()
+    .AddScoped<IFilter, IllegalMiddleCharactersFilter>()
     .BuildServiceProvider();
 
 try
 {
-    var fileProcessor = serviceProvider.GetService<IFileProcessor>();
-    var finalWords = fileProcessor?.Process();
+    var inputs = new List<string> { "CalastoneText.txt" };
 
-    if (finalWords != null)
+    inputs.ForEach(i =>
     {
+        var fileProcessor = serviceProvider.GetService<IFileProcessor>();
+        var finalWords = fileProcessor?.Process(i);
+
+        if (finalWords == null) return;
         var resultDisplayProvider = serviceProvider.GetService<IResultDisplayProvider>();
         resultDisplayProvider?.Display(finalWords);
-    }
+    });
 }
 catch (Exception ex)
 {

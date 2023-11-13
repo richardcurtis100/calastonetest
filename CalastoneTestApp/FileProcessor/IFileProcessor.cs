@@ -2,5 +2,5 @@
 
 public interface IFileProcessor
 {
-    IEnumerable<string> Process();
+    IEnumerable<string> Process(string filePath);
 }

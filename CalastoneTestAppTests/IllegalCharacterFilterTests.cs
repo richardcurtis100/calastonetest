@@ -1,18 +1,17 @@
-using CalastoneTestApp.Filters;
-
 namespace CalastoneTestAppTests;
 
-public class FilterIllegalCharTests
+public class IllegalCharacterFilterTests
 {
     [Fact]
-    public void FilterWordsContainingIllegalChar_WhenGivenValidChar_ShouldReturnWordsWithoutIllegalChar()
+    public void Filter_WhenGivenValidChar_ShouldReturnWordsWithoutIllegalChar()
     {
         // arrange
-        var illegalChar = 'e';
+        const string illegalChar = "e";
         var input = new[] { "this", "is", "the", "test", "input", "to", "use" };
+        var filter = new IllegalCharacterFilter();
 
         // act
-        var actual = input.FilterWordsContainingIlegalChar(illegalChar);
+        var actual = filter.Filter(input, illegalChar);
 
         // assert
         var expected = new [] { "this", "is", "", "", "input", "to", "" };
@@ -20,28 +19,30 @@ public class FilterIllegalCharTests
     }
 
     [Fact]
-    public void FilterWordsContainingIllegalChar_WhenGivenInvalidChar_ShouldReturnUnchangedList()
+    public void Filter_WhenGivenInvalidChar_ShouldReturnUnchangedList()
     {
         // arrange
-        var illegalChar = 'z';
+        const string illegalChar = "z";
         var input = new[] { "this", "is", "the", "test", "input", "to", "use" };
-
+        var filter = new IllegalCharacterFilter();
+    
         // act
-        var actual = input.FilterWordsContainingIlegalChar(illegalChar);
+        var actual = filter.Filter(input, illegalChar);
 
         // assert
         var expected = input;
         actual.Should().BeEquivalentTo(expected);
     }
-
+    
     [Fact]
-    public void FilterWordsContainingIllegalChar_WhenGivenEmptyWordsCollection_ShouldThrowException()
+    public void Filter_WhenGivenEmptyWordsCollection_ShouldThrowException()
     {
-        var illegalChar = 'e';
+        const string illegalChar = "e";
         var input = Array.Empty<string>();
+        var filter = new IllegalCharacterFilter();
 
-        var actual = () => input.FilterWordsContainingIlegalChar(illegalChar);
-
+        var actual = () => filter.Filter(input, illegalChar);
+    
         // assert
         var exception = Assert.Throws<InvalidOperationException>(actual);
         Assert.Equal("Input words array contains no elements", exception.Message);
